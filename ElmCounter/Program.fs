@@ -5,7 +5,7 @@ open Elmish.WPF
 open System
 open FsXaml
 
-type State = { Count : int } 
+type State = { Count: int } 
 
 type Msg = 
     | Increment 
