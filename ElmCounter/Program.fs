@@ -34,8 +34,9 @@ let timeout (n, msg) = async {
 }
 
 let justSleep secs = async {
+    do! Async.Sleep (secs/2 )
     simulateException 4
-    do! Async.Sleep secs 
+    do! Async.Sleep (secs/2 )
 }
 
 let update msg state =  
@@ -54,8 +55,7 @@ let update msg state =
     | IncrementTimes n ->
         if n>0
         then 
-            { state with State= sprintf "%d iterations to go" (n-1)}, 
-            Cmd.ofAsync justSleep  2000 (fun () -> AddAndGoOn {Adder=1; ToGo=n-1}) (fun ex -> ShowMsgButGoOn {Msg=ex.Message; ToGo=n-1})
+            state, Cmd.ofAsync justSleep  2000 (fun () -> AddAndGoOn {Adder=1; ToGo=n-1}) (fun ex -> ShowMsgButGoOn {Msg=ex.Message; ToGo=n-1})
         else
             state, Cmd.ofMsg (ShowMsg "Iteration Completed")
 
@@ -63,10 +63,10 @@ let update msg state =
         {state with State=msg }, Cmd.none
 
     | ShowMsgButGoOn msg -> 
-        {state with State=msg.Msg }, Cmd.ofMsg (IncrementTimes msg.ToGo)
+        {state with State= sprintf "%s (%d to go)" msg.Msg msg.ToGo}, Cmd.ofMsg (IncrementTimes msg.ToGo)
     
     | AddAndGoOn msg ->
-        {state with Count = state.Count + msg.Adder }, Cmd.ofMsg (IncrementTimes msg.ToGo)
+        {state with Count = state.Count + msg.Adder; State= sprintf "%d iterations to go" msg.ToGo }, Cmd.ofMsg (IncrementTimes msg.ToGo)
 
 let bindings model dispatch = [
     "Count"     |> Binding.oneWay (fun state -> state.Count)
