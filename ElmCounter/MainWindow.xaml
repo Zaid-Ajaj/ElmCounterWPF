@@ -9,10 +9,14 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <TextBlock Text="{Binding Count}" TextAlignment="Center" FontSize="18" Grid.Row="0" />
         <Button Command="{Binding Increment}" FontSize="18" Content="Increment" Grid.Row="1" />
         <Button Command="{Binding Decrement}" FontSize="18" Content="Decrement" Grid.Row="2" />
         <Button Command="{Binding IncrementDelayed}" FontSize="18" Content="Increment (Delayed)" Grid.Row="3" />
+        <Button Command="{Binding IncrementX10}" FontSize="18" Content="Increment X 10" Grid.Row="4" />
+        <TextBlock Text="{Binding State}" TextAlignment="Center" FontSize="18" Grid.Row="5" />
     </Grid>
 </Window>
